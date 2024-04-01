@@ -1,13 +1,13 @@
 import java.util.Random;
 
 public class Bread implements Bakery{
-    private int Number;
+    private int Stock;
     private String Name;
     private int Price;
     private String Describe = null;
 
-    public int getNumber() {
-        return Number;
+    public int getStock() {
+        return Stock;
     }
     public String getName() {
         return Name;
@@ -25,13 +25,17 @@ public class Bread implements Bakery{
     }
 
     @Override
-    public void produce(){
+    public void Produce(){
         Random random = new Random();
-        Number = random.nextInt(100);
+        Stock = random.nextInt(100);
     }
     @Override
-    public String describe() {
+    public String Describe() {
         return Describe;
+    }
+    @Override
+    public void DecreaseStock(int n){
+        Stock = Stock-n;
     }
     
 

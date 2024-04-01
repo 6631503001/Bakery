@@ -1,4 +1,5 @@
 public interface Bakery {
-    public void produce();
-    public String describe();
+    public void Produce();
+    public String Describe();
+    public void DecreaseStock(int n);
 }

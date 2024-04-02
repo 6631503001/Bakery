@@ -13,7 +13,7 @@ public class Main {
         System.out.println("Today we have " + bread.getStock() +" pieces of "+ bread.getName());
         System.out.println("And " + croissant.getStock() +" pieces of "+ croissant.getName());
 
-        System.out.println("1 or 2? :");
+        System.out.print("1 or 2? :");
         Scanner scan = new Scanner(System.in);
         choice = scan.nextInt();
         scan.close();

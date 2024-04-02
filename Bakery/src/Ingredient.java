@@ -1,3 +1,4 @@
-public class Ingredient {
-    //public 
+public class Ingredient implements Bakery{
+    private String Name;
+    
 }

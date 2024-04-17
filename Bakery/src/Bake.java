@@ -1,23 +1,27 @@
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Ingredient implements Stock{
+public class Bake implements Stock{
     private String Name;
-    private int Number = 0;
     private int Price;
-    //Constructor
-    public Ingredient(String name,int price){
-        this.Name = name;
-        this.Price = price;
-    }
-    public Ingredient(String name,int number,int price){
+    private int Number = 0;
+    private String Describe = null;
+    private List<Ingredient> Ingredients = new ArrayList<Ingredient>();
+    //Constuctorfield
+    public Bake(String name,int number,int price){
         this.Name = name;
         this.Number = number;
         this.Price = price;
     }
-    public Ingredient(String name){
+    public Bake(String name,int price){
+        this.Name = name;
+        this.Price = price;
+    }
+    public Bake(String name){
         this.Name = name;
     }
-    //GetSetField
+    //GetSetfield
     public String getName() {
         return Name;
     }
@@ -33,15 +37,17 @@ public class Ingredient implements Stock{
     public int getPrice() {
         return Price;
     }
-    //Methods(produce is still have work to do)
+    public void SetDescribe(String describe){
+        this.Describe = describe;
+    }
+    //Methods(Produce doesn't success)
     @Override
-    public void produceStock(){
-        Random random = new Random();
-        Number = random.nextInt(100);
+    public String describe() {
+        return Describe;
     }
     @Override
-    public String describe(){
-        return (this.Name + " is Ingredient");
+    public void produceStock(){
+        
     }
     @Override
     public void decreaseStock(int n) throws OutofStockException{
@@ -51,5 +57,5 @@ public class Ingredient implements Stock{
         Number = Number-n;
     }
     
-    
+
 }

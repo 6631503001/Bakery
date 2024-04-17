@@ -1,13 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
         int choice;
-        Bread bread = new Bread("Bread", 25);
-        Bread croissant = new Bread("Croissant", 50);
+        Bake bread = new Bake("Bread", 25);
+        Bake croissant = new Bake("Croissant", 50);
         bread.Produce();
         croissant.Produce();
-        //System.out.println("Today we have " + bread.getNumber() +" pieces of "+ bread.getName());
-        //System.out.println("Today we have " + croissant.getNumber() +" pieces of "+ croissant.getName());
+        //just try to test
+        List<Ingredient> Ingredients = new ArrayList<Ingredient>();
 
         System.out.println("What do you want to buy?");
         System.out.println("Today we have " + bread.getStock() +" pieces of "+ bread.getName());

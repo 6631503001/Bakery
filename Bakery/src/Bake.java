@@ -8,6 +8,7 @@ public class Bake implements Stock{
     private int Number = 0;
     private String Describe = null;
     private List<Ingredient> Ingredients = new ArrayList<Ingredient>();
+    private List<Integer> UseIngredient = new ArrayList<>();
     //Constuctorfield
     public Bake(String name,int number,int price){
         this.Name = name;
@@ -41,13 +42,43 @@ public class Bake implements Stock{
         this.Describe = describe;
     }
     //Methods(Produce doesn't success)
+    public boolean addIngredient(Ingredient in,Integer n){
+        for(Ingredient b:Ingredients){
+            if(b.getName() == in.getName()){
+                return false;
+            }
+        }
+        Ingredients.add(in);
+        UseIngredient.add(n);
+        return true;
+    }
+    public boolean removeIngredient(Ingredient in){
+        int i = 0; 
+        for(Ingredient b:Ingredients){
+            if(b.getName() == in.getName()){
+                Ingredients.remove(b);
+                UseIngredient.remove(i);
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
     @Override
     public String describe() {
         return Describe;
     }
     @Override
     public void produceStock(){
-        
+        try {
+        int i = 0;
+        for(Ingredient a : Ingredients){
+            a.decreaseStock(UseIngredient.get(i));
+            i++;
+        }
+    } catch (OutofStockException e){
+        System.out.println("You don't have enough ingredients to produce.");
+    }
     }
     @Override
     public void decreaseStock(int n) throws OutofStockException{

@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 public class Main {
+    //+ object -Object
+    //Exception
+
     public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
         boolean Nextday= true;
@@ -19,7 +22,7 @@ public class Main {
         Ingredients.add(flour);
         Ingredient yeet = new Ingredient("Yeet");
         Ingredients.add(yeet);
-        
+       
        //start here 
         while(Nextday)
         {   //set some variable
@@ -44,22 +47,25 @@ public class Main {
             System.out.println(1 +" Bread");
             System.out.println(2 +" croissant");
             choice = scan.nextInt();
+            scan.close();
             if(choice == 1){
                 //Use 2 Flour to make bread
                 System.out.println("How many you want to make?");
                 bread.setNumber(scan.nextInt());
+                scan.close();
                 //add check stock for make this line
             }
             else if(choice == 2){
                 //Use 3 Flour to make Croissant
                 System.out.println("How many you want to make?");
                 croissant.setNumber(scan.nextInt());
+                scan.close();
                  //add check stock for make this line
                  
             } 
-            System.out.println("Want to bake other ?<Y/N>");
-            scan.nextLine();
+            System.out.println("Want to bake other ?<Y/N>");            
             anwer = scan.nextLine();
+            scan.close();
             if(anwer.equals("N")){
                 Bakesomething= false;
             }
@@ -73,9 +79,11 @@ public class Main {
         
         System.out.println("Which one do you want to buy we still have,\n1.) Bread " + bread.getNumber()+" picese\n2.) Croissant " + croissant.getNumber()+" picese");
         choice = scan.nextInt();
+        scan.close();
         if(choice == 1){
             System.out.println("We still have Bread "+bread.getNumber()+ " \n How many do you want?" );
              wantsome =scan.nextInt();
+             scan.close();
             bread.decreaseStock(wantsome);
             System.out.println("Price is "+bread.getPrice()*wantsome+" Bath");
             
@@ -84,12 +92,16 @@ public class Main {
            
             System.out.println("We still have Croissant "+croissant.getNumber()+ " \n How many do you want?" );
             wantsome =scan.nextInt();
+            scan.close();
             croissant.decreaseStock(wantsome);
             System.out.println("Price is "+croissant.getPrice()*wantsome+" Bath");
         }   
-            if(bread.getNumber()==0 && croissant.getNumber()==0){
-                stillhave = false;
-            }
+        System.out.println("Wanna go home?<Y/N>");
+        anwer = scan.nextLine();
+         scan.close();
+         if(anwer.equals("Y")){
+           stillhave= false;
+        }
 
 
 

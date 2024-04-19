@@ -5,9 +5,10 @@ public class Ingredient implements Stock{
     private int Number = 0;
     private int Price;
     //Constructor
+    
     public Ingredient(String name,int price){
         this.Name = name;
-        this.Price = price;
+        this.Price =price;
     }
     public Ingredient(String name,int number,int price){
         this.Name = name;

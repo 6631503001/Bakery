@@ -116,8 +116,7 @@ public class Main {
            stillhave= false;
         }
         scan.close();
-
-
+        scan2.close();
         }
 
       

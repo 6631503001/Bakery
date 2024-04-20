@@ -69,14 +69,16 @@ public class Bake implements Stock{
         return Describe;
     }
     @Override
-    public void produceStock(){
+    public void produceStock(int n){
         try {
         int i = 0;
         for(Ingredient a : Ingredients){
-            a.decreaseStock(UseIngredient.get(i));
+            a.decreaseStock(UseIngredient.get(i)*n);
             i++;
         }
-    } catch (OutofStockException e){
+        Number += n;
+    }
+         catch (OutofStockException e){
         System.out.println("You don't have enough ingredients to produce.");
     }
     }

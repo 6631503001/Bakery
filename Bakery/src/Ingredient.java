@@ -36,7 +36,7 @@ public class Ingredient implements Stock{
     }
     //Methods(produce is still have work to do)
     @Override
-    public void produceStock(){
+    public void produceStock(int n){
         Random random = new Random();
         Number = random.nextInt(100);
     }

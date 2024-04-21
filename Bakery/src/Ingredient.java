@@ -1,33 +1,33 @@
 import java.util.Random;
 
 public class Ingredient implements Stock{
-    public String Nameingredient;
-    public int Numberingredient = 0;
+    private String Name;
+    private int Number = 0;
     private int Price;
    
     //Constructor
     
     public Ingredient(String name,int price){
-        this.Nameingredient = name;
+        this.Name = name;
         this.Price =price;
     }
     public Ingredient(String name,int number,int price){
-        this.Nameingredient = name;
-        this.Numberingredient = number;
+        this.Name = name;
+        this.Number = number;
         this.Price = price;
     }
     public Ingredient(String name){
-        this.Nameingredient = name;
+        this.Name = name;
     }
     //GetSetField
     public String getName() {
-        return Nameingredient;
+        return Name;
     }
     public void setNumber(int number) {
-        Numberingredient = number;
+        Number = number;
     }
     public int getNumber() {
-        return Numberingredient;
+        return Number;
     }
     public void setPrice(int price) {
         Price = price;
@@ -39,18 +39,18 @@ public class Ingredient implements Stock{
     @Override
     public void produceStock(int n){
         Random random = new Random();
-        Numberingredient = random.nextInt(100);
+        Number = random.nextInt(100);
     }
     @Override
     public String describe(){
-        return (this.Nameingredient + " is Ingredient");
+        return (this.Name + " is Ingredient");
     }
     @Override
     public void decreaseStock(int n) throws OutofStockException{
-        if(Numberingredient-n < 0){
+        if(Number-n < 0){
             throw new OutofStockException();
         }
-        Numberingredient = Numberingredient-n;
+        Number = Number-n;
     }
     
     

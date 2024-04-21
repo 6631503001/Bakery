@@ -7,8 +7,8 @@ public class Bake implements Stock{
     private int Price;
     private int Number = 0;
     private String Describe = null;
-    private List<Ingredient> Ingredients = new ArrayList<Ingredient>();
-    private List<Integer> UseIngredient = new ArrayList<>();
+    public  List<Ingredient> Ingredients = new ArrayList<Ingredient>();
+    public  List<Integer> UseIngredient = new ArrayList<>();
     //Constuctorfield
     public Bake(String name,int number,int price){
         this.Name = name;

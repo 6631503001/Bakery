@@ -7,7 +7,7 @@ public class Main {
     //+ object -Object
     //Exception
     static List<Bake> Bakes = new ArrayList<Bake>();
-    static List<Ingredient> Allingredients = new ArrayList<Ingredient>();
+    static List<Ingredient> Addingredients = new ArrayList<Ingredient>();
     private static final String Filename1 = "Bake";
     private static final String Filename2 = "Ingredient";
     
@@ -31,9 +31,9 @@ public class Main {
         Bakes.add(croissant);
         //make Ingredients list and create Ingredient object
         Ingredient flour = new Ingredient("Flour");
-        Allingredients.add(flour);
+        Addingredients.add(flour);
         Ingredient yeet = new Ingredient("Yeet");
-        Allingredients.add(yeet);
+        Addingredients.add(yeet);
 
         //Add Ingredient into Bake object
         bread.addIngredient(flour,2);
@@ -59,7 +59,7 @@ public class Main {
 
              System.out.println("We have ");
           
-            for(Ingredient a: Allingredients){
+            for(Ingredient a: Addingredients){
                 System.out.println( Number + " . "+ a.getName() + " have "+a.getNumber());
                 Number++;        
             }
@@ -159,9 +159,9 @@ public class Main {
             else if(obj instanceof Ingredient){
                 Ingredient objs = new Ingredient(name);
                 objs = (Ingredient) obj;
-                for(Ingredient a: Allingredients){
+                for(Ingredient a: Addingredients){
                     if (a.getName().equals(objs.getName())){
-                        Allingredients.remove(i);
+                        Addingredients.remove(i);
                         return true;
                     }
                     i++;
@@ -190,15 +190,15 @@ public class Main {
             else if(num == 2){
                 Ingredient objs = new Ingredient(name);
                
-                for(Ingredient a: Allingredients){
+                for(Ingredient a: Addingredients){
                     if (a.getName().equals(objs.getName())){
                         System.out.println("Sorry but we have this Ingredients already.");
                         return false;
                     }
                  
                 }
-                Allingredients.add(objs);
-           
+                Addingredients.add(objs);
+           ;
             }
             
             return true;
@@ -210,7 +210,7 @@ public class Main {
           
             try{
                 //for write file name bake
-            BufferedWriter bake = new BufferedWriter(new FileWriter(Filename1));
+            BufferedWriter bake = new BufferedWriter(new FileWriter(Filename1,true));
             for(Bake a:Bakes){
                 bake.write(a.getName()+" "+a.getPrice()+" ");
                 for(  int i =0;a.Ingredients.size()>i;i++){
@@ -220,7 +220,7 @@ public class Main {
             }
                 bake.close();
 
-                BufferedWriter material = new BufferedWriter(new FileWriter(Filename2));
+                BufferedWriter material = new BufferedWriter(new FileWriter(Filename2,true));
                 for(Ingredient b:Addingredients){
                     material.write(b.getName()+" "+b.getNumber()+"\n");
                 }
@@ -242,7 +242,7 @@ public class Main {
             a.UseIngredient.clear();
         }    
                Bakes.clear();
-               Allingredients.clear();
+               Addingredients.clear();
         try{
             BufferedReader readbake = new BufferedReader(new FileReader(Filename1));
             while ((line = readbake.readLine()) != null)
@@ -287,11 +287,11 @@ public class Main {
                  {  Ingredient addsome = new Ingredient(a);
                     
                     if(fromfile2[0].equals(a)){
-                        Allingredients.add(addsome);
+                        Addingredients.add(addsome);
 
                  }else {
                     int number = Integer.parseInt(a);
-                    Allingredients.get(i).setNumber(number);
+                    Addingredients.get(i).setNumber(number);
                         }          
                  }
                 i++;
@@ -304,6 +304,18 @@ public class Main {
              }
 
 
+
+        //clear file
+        try {
+            RandomAccessFile bake = new RandomAccessFile(Filename1,"rw");
+            bake.setLength(0);
+            bake.close();
+            RandomAccessFile material = new RandomAccessFile(Filename2,"rw");
+            material.setLength(0);
+            material.close();
+        } catch (IOException e) {
+            System.out.println("Something happen with your file.");
+        }
        
        }
 //if you want to creat method clearfile separate from ReadbakeryrecipesAndIngredient just tell me

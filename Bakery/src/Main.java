@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
-import javax.lang.model.element.Name;
 public class Main {
     //+ object -Object
     //Exception
@@ -22,23 +21,26 @@ public class Main {
         int wantsome;
         int choice;
         String anwer = null;
-
+        
+        ReadbakeryrecipesAndIngredient();
         //Make Bake object
-      
+        /* 
         Bake bread = new Bake("Bread", 25);
         Bakes.add(bread);
         Bake croissant = new Bake("Croissant", 50);
         Bakes.add(croissant);
+        Bake test = new Bake("test", 28);
+        Bakes.add(test);
         //make Ingredients list and create Ingredient object
         Ingredient flour = new Ingredient("Flour");
         Allingredients.add(flour);
         Ingredient yeet = new Ingredient("Yeet");
         Allingredients.add(yeet);
-
+        
         //Add Ingredient into Bake object
         bread.addIngredient(flour,2);
         croissant.addIngredient(flour, 3);
-
+        */
        //start here 
         while(Nextday)
         {   //set some variable
@@ -47,8 +49,8 @@ public class Main {
             anwer = null;
             choice = 0;
             //Need to fix produce stock for the future
-            flour.produceStock(1);
-            yeet.produceStock(1);
+            //flour.produceStock(1);
+            //yeet.produceStock(1);
            
            
             System.out.println("==== Day"+Day+"====");  
@@ -57,7 +59,7 @@ public class Main {
             //I will put the add of decrease right here
 
 
-             System.out.println("We have ");
+            System.out.println("We have ");
           
             for(Ingredient a: Allingredients){
                 System.out.println( Number + " . "+ a.getName() + " have "+a.getNumber());
@@ -68,7 +70,7 @@ public class Main {
             System.out.println("Which one you want to produce first");
             Number = 1;
             for(Bake a: Bakes){
-                System.out.println( Number + " . "+ a.getName() + " have "+a.getNumber());
+                System.out.println( Number + " . "+ a.getName() + " have "+a.getNumber() );
                 Number++;   
             }     
             choice = scan.nextInt();
@@ -76,7 +78,7 @@ public class Main {
             Bakes.get(choice-1).produceStock(scan.nextInt()); 
             //add check stock for make this line
            
-           /*This one tis old version i will make it like above*/
+           /*This one tis old version i will make it like above
             /*if(choice == 1){
                 //Use 2 Flour to make bread
                
@@ -99,10 +101,17 @@ public class Main {
             //System.out.println(anwer);
             if(anwer.equals("N")){
                 Bakesomething= false;
+                Nextday = false;
             }
-            
+            System.out.println("We have ");
+          
+            for(Ingredient a: Allingredients){
+                System.out.println( Number + " . "+ a.getName() + " have "+a.getNumber());
+                Number++;        
+            }
+            WritebakeryrecipesAndIngredient(Bakes, Allingredients);
         } 
-        
+        /* 
         System.out.println("Lets open this store!!");
         //start sell
         while (stillhave)
@@ -137,8 +146,9 @@ public class Main {
         scan.close();
         scan2.close();
         }
-
-      
+        */
+        scan.close();
+        scan2.close();
     }
     
 }// **ex** Q: What type do you want to decrease? 1.Bakery  2. Ingredient 
@@ -203,10 +213,11 @@ public class Main {
             
             return true;
         }
+         
         //I think I will use this method at the end of the day because it can add new recipes or new ingerdient of that day in file
         //If you take off some bake or ingredaint in filed will take it out too 
         //Then the next day that can auto update by read in file *-*zzz  
-        public static void WritebakeryrecipesAndIngredient(ArrayList<Bake> Bakes, ArrayList<Ingredient> Addingredients){
+        public static void WritebakeryrecipesAndIngredient(List<Bake> Bakes, List<Ingredient> Addingredients){
           
             try{
                 //for write file name bake
@@ -231,81 +242,73 @@ public class Main {
                 System.out.println("Something happen with your file.");
             }
        }
+       
        //This method will called at the start of day it will make set variable arraylist
        //Then it will clear file to prepare the write method called at the end of the day
        public static void ReadbakeryrecipesAndIngredient(){
         String line = null;
         int i =0;
         int j =0;
-        for(Bake a:Bakes){ 
+        /*for(Bake a:Bakes){ 
             a.Ingredients.clear();
             a.UseIngredient.clear();
         }    
                Bakes.clear();
                Allingredients.clear();
+               */
         try{
-            BufferedReader readbake = new BufferedReader(new FileReader(Filename1));
-            while ((line = readbake.readLine()) != null)
-        {          j =0;
-            String fromfile [] = line.split("//s+");
-               
-                for(String a:fromfile)
-                { 
-                    Bake Rebake = new Bake(a);
-                    Ingredient ReIngredient = new Ingredient(a);
-
-                    if(fromfile[0].equals(a)){
-                    Bakes.add(Rebake);}
-
-                    else if(fromfile[1].equals(a)){
-                        int price = Integer.parseInt(a);
-                        Bakes.get(i).setPrice(price);
-                    }
-                    else{
-                        if(j%2==0){
-                            Bakes.get(i).Ingredients.add(ReIngredient);
-                        }
-                        else{
-                            int number = Integer.parseInt(a);
-                            Bakes.get(i).UseIngredient.add(number);
-                        }
-                    }
-                    j++;
-                }
-                i++;
-        
-        }readbake.close(); 
+            
         
         //read ingredient
         BufferedReader readingredient = new BufferedReader(new FileReader(Filename2));
         i=0;
         while ((line = readingredient.readLine()) != null)
             {  
-                 String fromfile2 [] = line.split("//s+");
+                 String fromfile2[] = line.split("\\s+");
            
                 for(String a:fromfile2)
                  {  Ingredient addsome = new Ingredient(a);
-                    
-                    if(fromfile2[0].equals(a)){
-                        Allingredients.add(addsome);
-
-                 }else {
+                 try {
                     int number = Integer.parseInt(a);
                     Allingredients.get(i).setNumber(number);
-                        }          
-                 }
+                }catch (NumberFormatException e){
+                    Allingredients.add(addsome);
+                }
+                }
                 i++;
     
             }readingredient.close();
 
+        BufferedReader readbake = new BufferedReader(new FileReader(Filename1));
+        while ((line = readbake.readLine()) != null) {
+            String[] fromfile = line.split("\\s+");
+            if (fromfile.length > 1) {
+                String name = fromfile[0];
+                int price = Integer.parseInt(fromfile[1]);
+                Bake rebake = new Bake(name, price);
+                Bakes.add(rebake);
 
-             }catch(IOException e){
-            System.out.println("Something happen with your file.");
-             }
+                for (int o = 2; o < fromfile.length; o += 2) {
+                    String ingredientName = fromfile[o];
+                    int useingredient = Integer.parseInt(fromfile[o + 1]);
+                    int in = 0;
+                    for(Ingredient e:Allingredients){
+                        if(e.getName().equals(ingredientName)){
+                        rebake.addIngredient(Allingredients.get(in), useingredient);}
+                        in++;
+                    }
+                }
+            }
+        }
+        readbake.close(); 
+    } catch(IOException e) {
+        System.out.println("Something happen with your file.");
+    }
+}
 
 
        
        }
 //if you want to creat method clearfile separate from ReadbakeryrecipesAndIngredient just tell me
 
-}
+

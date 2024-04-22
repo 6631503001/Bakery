@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,10 +70,10 @@ public class Bake implements Stock{
     @Override
     public void produceStock(int n){
         try {
-        int i = 0;
-        for(Ingredient a : Ingredients){
-            a.decreaseStock(UseIngredient.get(i)*n);
-            i++;
+            
+        for(int i = 0;i < Ingredients.size();i++){
+            Ingredients.get(i).decreaseStock(UseIngredient.get(i)*n);
+            
         }
         Number += n;
     }

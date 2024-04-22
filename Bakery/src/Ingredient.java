@@ -51,6 +51,7 @@ public class Ingredient implements Stock{
             throw new OutofStockException();
         }
         Number = Number-n;
+        
     }
     
     

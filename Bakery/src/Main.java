@@ -13,10 +13,9 @@ public class Main {
     private static final String Filename2 = "Ingredient";
     static int Day = 1;
     static int choice;
+    static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
         boolean Nextday = true;
-        Scanner scan = new Scanner(System.in);
-
         ReadbakeryrecipesAndIngredient();
 
         try {
@@ -27,15 +26,15 @@ public class Main {
 
                 while (Bakesomething) {
                     System.out.println("What do you want to do?");
-                    System.out.println("1.) Show bakery\n2.) Show Ingredients\n3.) Produce bakery\n4.) Buy Ingredients\n5.) Sell Bakery\n6.) End program");
+                    System.out.println("1.) Edit bakery ingredient\n2.) Show Ingredients in stock\n3.) Buy ingredient\n4.)  Produce bakery\n5.) Sell Bakery\n6.) End program");
 
                     if (scan.hasNextInt()) {
-                        int choice = scan.nextInt();
+                        int choice = Integer.parseInt( scan.nextLine());
                         //clearScreen();
                         switch (choice) {
                             case 1:
                                 ShowBakery();
-                                break;
+                               break;
                             case 2:
                                 //ShowIngredients();
                                 break;
@@ -61,7 +60,7 @@ public class Main {
                         System.out.println("Invalid input. Please enter a number.");
                         //scan.nextLine(); 
                         System.out.println(choice);
-                    }
+                     }
                 }
 
                 Nextday = false; // Set to false to exit the loop after one iteration
@@ -73,6 +72,9 @@ public class Main {
         }
     }
 
+
+
+    
     //clearscreen
     private static void clearScreen() {
         System.out.print("\033[H\033[2J");
@@ -85,12 +87,30 @@ public class Main {
     }
 
     // findIngredient
-    private static Ingredient findIngredientByName(String name) {
+    private static Ingredient findIngredientByNameforadd(String name) {
+        for(Bake a : Bakes){
+            for(Ingredient b:a.Ingredients){
+                if(b.getName().equals(name)){
+                    return b;
+                }
+            }
+        }
         for (Ingredient ingredient : Allingredients) {
             if (ingredient.getName().equals(name)) {
                 return ingredient;
             }
         }
+        return null;
+    }
+
+    public static Ingredient findusedingredient( String name){
+        for(Bake a:Bakes){
+        for(Ingredient b:a.Ingredients){
+            if(b.getName().equals(name)){
+                return b;
+            }
+        } 
+    }
         return null;
     }
     
@@ -100,8 +120,8 @@ public class Main {
         Bake selected;
         String input;
         boolean program = true, subprogram = true;
-        Scanner scanbakery = new Scanner(System.in);
-        Scanner textscanbakery = new Scanner(System.in);
+        
+       
 
         while (program) {
             try {
@@ -112,64 +132,114 @@ public class Main {
                     Number++;
 
                 }
+                
                 System.out.println("Select number to see their ingredients or insert 0 to main menu");
-                choices = scanbakery.nextInt();
+                
+                choices = Integer.parseInt( scan.nextLine());
                 if (choices == 0) {
-                    System.out.print("\033[H\033[2J");
+                    clearScreen();
                     break;
                 }
                 selected = Bakes.get(choices - 1);
-                System.out.println(selected.getName() + " Use");
+                /*System.out.println(selected.getName() + " Use");
                 // to show all the ingredient to use
                 Number = 0;
                 for (Ingredient n : selected.Ingredients) {
                     System.out.print(n.getName() + " " + selected.UseIngredient.get(Number));
                     Number++;
-                }
+                }*/
                 while (subprogram) {
+                    System.out.println(selected.getName() + " Use");
+                     // to show all the ingredient to use
+                    Number = 0;
+                     for (Ingredient n : selected.Ingredients) {
+                    System.out.print(n.getName() + " " + selected.UseIngredient.get(Number));
+                    Number++;
+                            }
                     System.out.println("\nDo you want to edit Ingredient?");
                     System.out.println("1 to increase ingredient , 2 to decrease ingredient, 3 to not edit");
-                    choices = scanbakery.nextInt();
+                    try {
+                        choices = Integer.parseInt( scan.nextLine());
+                       
+                        
+                   }catch(NumberFormatException e){
+                       System.out.println("Input only number pls.");
+                   }
                     switch (choices) {
                         case 1:
                             System.out.println("Please Insert your ingredient to Insert");
-                            input = textscanbakery.nextLine();
-                            Ingredient in = findIngredientByName(input);
+                            input = scan.nextLine();
+                            Ingredient in = findIngredientByNameforadd(input);
                             if (in != null) {
                                 System.out.println("Please enter how many use Ingredient");
-                                Number = scanbakery.nextInt();
-                                if (selected.addIngredient(in, Number)) {
+                                try {
+                                    Number = Integer.parseInt( scan.nextLine());
+                                    clearScreen();
+                                   
+                                    
+                               }catch(NumberFormatException e){
+                                   System.out.println("Input only number pls.");
+                               }
+                                if (selected.addsameingredient(in,Number)) {
                                     System.out.print("Add success!!");
-                                    textscanbakery.nextLine();
-                                    System.out.print("\033[H\033[2J");
-                                } else {
-                                    System.out.println("Can't add your ingredient");
-                                    textscanbakery.nextLine();
-                                    System.out.print("\033[H\033[2J");
+                                    scan.nextLine();
+                                   clearScreen();
+                                } 
+                                else if( selected.addIngredient(in,Number)){
+                                    System.out.print("Add success!!");
+                                    scan.nextLine();
+                                   clearScreen();
                                 }
-                            } else {
+                                else {
+                                    System.out.println("Can't add your ingredient");
+                                    scan.nextLine();
+                                    clearScreen();
+                                }
+                            } 
+                            
+                            else {
                                 System.out.println("Your Ingredient doesn't exist in our dictory(?)");
-                                textscanbakery.nextLine();
+                                scan.nextLine();
                                 System.out.print("\033[H\033[2J");
                             }
                             break;
-                        case 2:
 
+                        case 2:
+                        System.out.println("Please Insert your ingredient to decreaes");
+                        input = scan.nextLine();
+                        Ingredient in2 = findusedingredient(input);
+                        if (in2 != null) {
+                            System.out.println("Please enter how many use Ingredient");
+                            try {
+                                 Number = Integer.parseInt( scan.nextLine());
+                                 clearScreen();
+                                 selected.decreaesIngredient(in2,Number);
+                                 
+                            }catch(NumberFormatException e){
+                                System.out.println("Input only number pls.");
+                            }
+    
+                        } else {
+                            System.out.println("Your Ingredient doesn't exist in our dictory(?)");
+                            scan.nextLine();
+                            clearScreen();
+                        }
                             break;
+
                         case 3:
                             subprogram = false;
                             break;
+                        
                         default:
-                            System.out.print("Please select only avaliable number:");
-                            break;
+                        System.out.print("Please select only avaliable number:");
+                        break;
                     }
                 }
             } catch (Exception e) {
                 System.out.print("Please select only avaliable number:");
             }
         }
-        scanbakery.close();
-        textscanbakery.close();
+      
     }
 
     // **ex** Q: What type do you want to decrease? 1.Bakery 2. Ingredient

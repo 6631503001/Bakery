@@ -41,6 +41,17 @@ public class Bake implements Stock{
         this.Describe = describe;
     }
     //Methods(Produce doesn't success)
+    public boolean addsameingredient(Ingredient in,Integer n){
+        int i = 0;
+        for(Ingredient b:Ingredients){
+            if(b.getName().equals(in.getName())){
+                UseIngredient.set(i, UseIngredient.get(i)+n);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean addIngredient(Ingredient in,Integer n){
         for(Ingredient b:Ingredients){
             if(b.getName() == in.getName()){
@@ -62,6 +73,36 @@ public class Bake implements Stock{
             i++;
         }
         return false;
+    }
+
+    
+    //You have only remove and decrease stock then i add this one!!
+    public void decreaesIngredient(Ingredient in, int num){
+       int i = 0;
+   
+        for(Ingredient a: Ingredients){
+            if (in.getName().equals(a.getName())){
+                //you can add try catch block if you want
+                 if(UseIngredient.get(i)- num<0){
+                    System.out.println("Can't less than this.");
+                    return ;
+                 }
+                else if(UseIngredient.get(i)- num==0){
+                    removeIngredient(Ingredients.get(i));
+                    System.out.println("We remove it already.");
+                    return ;
+                }
+                    
+                else{
+                    UseIngredient.set(i, UseIngredient.get(i) - num);
+                    return;
+                }
+                
+            }
+            i++;
+        }
+       
+        return ;
     }
     @Override
     public String describe() {

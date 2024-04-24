@@ -70,7 +70,6 @@ public class Bake implements Stock{
     @Override
     public void produceStock(int n){
         try {
-            
         for(int i = 0;i < Ingredients.size();i++){
             Ingredients.get(i).decreaseStock(UseIngredient.get(i)*n);
             

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+//import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.*;
 
@@ -28,7 +28,7 @@ public class Main {
                 while (Bakesomething) {
                     System.out.println("What do you want to do?");
                     System.out.println(
-                            "1.) Edit bakery ingredient\n2.) Show Ingredients in stock\n3.) Buy ingredient\n4.)  Produce bakery\n5.) Sell Bakery\n6.) End program");
+                            "1.) Edit bakery ingredient\n2.) Show&BuyIngredients in stock\n3.) Produce bakery\n4.) Sell Bakery\n5.) End program");
                     if (scan.hasNextInt()) {
                         int choice = Integer.parseInt(scan.nextLine());
                         // clearScreen();
@@ -38,20 +38,17 @@ public class Main {
                                 ShowBakery();
                                 break;
                             case 2:
-                            clearScreen();
+                                clearScreen();
                                 ShowIngredients();
                                 break;
                             case 3:
-                                // BuyIngredients();
-                                break;
-                            case 4:
-                            clearScreen();
+                                clearScreen();
                                 ProduceBakery();
                                 break;
-                            case 5:
-                                // SellBakery();
+                            case 4:
+                                
                                 break;
-                            case 6:
+                            case 5:
                                 Bakesomething = false;
                                 break;
                             default:
@@ -119,7 +116,8 @@ public class Main {
         return null;
     }
 
-    // Subprogram 1-6
+    // Subprogram 1-4
+    //Subprogram 1
     private static void ShowBakery() {
         int Number, choices;
         Bake selected;
@@ -245,12 +243,11 @@ public class Main {
         clearScreen();
     }
 
-    // Subprogram 2
+    //Subprogram 2
     private static void ShowIngredients() {
         int Number, choices;
         boolean subprogram = true;
-
-        clearScreen();
+        Ingredient selected;
 
         while (subprogram) {
             try {
@@ -261,119 +258,139 @@ public class Main {
                     System.out.println((Number + 1) + ". " + a.getName() + " have " + a.getNumber());
                     Number++;
                 }
-                System.out.println("Enter 0 to go back");
+                System.out.println("Enter Number to buy ingredient or 0 to go back");
                 choices = Integer.parseInt(scan.nextLine());
                 if (choices == 0) {
                     subprogram = false;
                 } else {
-                    clearScreen();
+                    selected = Allingredients.get(choices - 1);
+                    while (true) {
+                        try {
+                            System.out.println("We have " + selected.getNumber() + " " + selected.getName());
+                            System.out.println("How many do you want to buy?\nOr enter 0 to go back");
+                            Number = -1;
+                            Number = Integer.parseInt(scan.nextLine());
+                            if (Number >= 0) {
+                                selected.setNumber(selected.getNumber() + Number);
+                                System.out.println("Buy succesfully");
+                                scan.nextLine();
+                                break;
+                            } else if(Number == 0) {
+                                break;
+                            }
+                            else {
+                                System.out.println("Cannot insert less than 0!!");
+                            }
+                        } catch (Exception e) {
+                            clearScreen();
+                            System.out.println("Please Enter only integer");
+                        }
+                    }
                 }
             } catch (Exception e) {
-                clearScreen();
+                //clearScreen();
                 //System.out.println("Please select only avaliable number");
 
             }
         }
-        clearScreen();
-    }
-
-    //subprogram3
-    public static void ProduceBakery() 
-    { boolean produce = true;
-        int i =0;
-        int j =0;
-        int choice=0;
-        int number =0;
-        Bake producebake = new Bake(null);
-        while (produce) {
-            //this for IndexOutOfBoundsException
-            while(true){
-                //this for NumberFormatException
-           while(true){
-            i=0;
-            System.out.println("This is all ingredient that you have in stock");
-            for(Ingredient a : Allingredients){
-                i++;
-                System.out.print(i+")"+a.getName()+a.getNumber()+"\n");
-
-            }
-            System.out.println("And here is your menu.");
-            i=0;
-            for(Bake a : Bakes){
-                i++;
-                j=0;
-                System.out.print(i+")"+a.getName()+" ==> ");
-                for(Ingredient b:a.Ingredients){
-                    System.out.print("[ use "+a.UseIngredient.get(j) +" parts of "+b.getName() +" ] ");
-                    j++;
-                }
-                System.out.print("\n");
-            }
-           
-            System.out.println("Which one do you want to produce?");
-            System.out.println("<input 0 to go to main menu>");
-            try{
-                choice= Integer.parseInt(scan.nextLine());
-                if(choice==0){
-                    clearScreen();
-                    return;
-                }
-            }catch(NumberFormatException e){
-                clearScreen();
-                System.out.println("Hey input only number pls!");
-            }
-            clearScreen();
-            break;
-         }
-            try{
-                producebake = Bakes.get(choice-1);
-                break;
-            }catch(IndexOutOfBoundsException e){
-                clearScreen();
-                System.out.println("We don't have that menu.");
-            }
-        }  //for NumberFormatException
-        while(true){
-            
-            System.out.print(producebake.getName() +" ==> ");
-            j=0;
-            for (Ingredient a : producebake.Ingredients){
-                System.out.print("use "+producebake.UseIngredient.get(j) + " parts of "+a.getName());
-                j++;
-            }
-            System.out.println("\nAnd here is ingredient in your stock that match with recipes.");
-            j=0;
-            for(Ingredient a: producebake.Ingredients){
-                for(Ingredient b:Allingredients){
-                    if(a.getName().equals(b.getName())){
-                        System.out.print(" [ "+a.getName() +" have "+b.getNumber()+" ] ");
-                    }
-                }
-                j++;
-            }
-            System.out.println("\nHow many do you want to produce\n <input 0 to produce menu>");
-            try{
-            number =Integer.parseInt(scan.nextLine());
-            if(number!=0){
-                clearScreen();
-                producebake.produceStock(number);
-                System.out.println("Produce success!");
-                break;
-            }
-            else if(number ==0){
-            clearScreen();
-                break;}
-           
-            }catch(NumberFormatException e){
-                System.out.println("Input number pls.");
-            }
-            
-        }
         
     }
-        }
 
-    
+    // subprogram 3
+    public static void ProduceBakery() {
+        boolean produce = true;
+        int i = 0;
+        int j = 0;
+        int choice = 0;
+        int number = 0;
+        Bake producebake = new Bake(null);
+        while (produce) {
+            // this for IndexOutOfBoundsException
+            while (true) {
+                // this for NumberFormatException
+                while (true) {
+                    i = 0;
+                    System.out.println("This is all ingredient that you have in stock");
+                    for (Ingredient a : Allingredients) {
+                        i++;
+                        System.out.print(i + ") " + a.getName() + " " + a.getNumber() + "\n");
+
+                    }
+                    System.out.println("And here is your menu.");
+                    i = 0;
+                    for (Bake a : Bakes) {
+                        i++;
+                        j = 0;
+                        System.out.print(i + ") " + a.getNumber() + " " + a.getName() + " ==> ");
+                        for (Ingredient b : a.Ingredients) {
+                            System.out.print("[ use " + a.UseIngredient.get(j) + " parts of " + b.getName() + " ] ");
+                            j++;
+                        }
+                        System.out.print("\n");
+                    }
+
+                    System.out.println("Which one do you want to produce?");
+                    System.out.println("<input 0 to go to Produce menu");
+                    try {
+                        choice = Integer.parseInt(scan.nextLine());
+                        if (choice == 0) {
+                            clearScreen();
+                            return;
+                        }
+                    } catch (NumberFormatException e) {
+                        clearScreen();
+                        System.out.println("Hey input only number pls!");
+                    }
+                    clearScreen();
+                    break;
+                }
+                try {
+                    producebake = Bakes.get(choice - 1);
+                    break;
+                } catch (IndexOutOfBoundsException e) {
+                    clearScreen();
+                    System.out.println("We don't have that menu.");
+                }
+            } // for NumberFormatException
+            while (true) {
+
+                System.out.print(producebake.getName() + " ==> ");
+                j = 0;
+                for (Ingredient a : producebake.Ingredients) {
+                    System.out.print("use " + producebake.UseIngredient.get(j) + " parts of " + a.getName());
+                    j++;
+                }
+                System.out.println("\nAnd here is ingredient in your stock that match with recipes.");
+                j = 0;
+                for (Ingredient a : producebake.Ingredients) {
+                    for (Ingredient b : Allingredients) {
+                        if (a.getName().equals(b.getName())) {
+                            System.out.print(" [ " + a.getName() + " have " + b.getNumber() + " ] ");
+                        }
+                    }
+                    j++;
+                }
+                System.out.println("\nHow many do you want to produce\n <input 0 to menu>");
+                try {
+                    number = Integer.parseInt(scan.nextLine());
+                    if (number != 0) {
+                        clearScreen();
+                        producebake.produceStock(number);
+                        System.out.println("Produce success!");
+                        break;
+                    } else if (number == 0) {
+                        clearScreen();
+                        break;
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Input number pls.");
+                }
+
+            }
+
+        }
+    }
 
     // Decrease method
     public static boolean decreaseSomething(Object obj, String name) {

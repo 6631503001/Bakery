@@ -49,6 +49,7 @@ public class Ingredient implements Stock{
     public void decreaseStock(int n) throws OutofStockException{
         if(Number-n < 0){
             throw new OutofStockException();
+            
         }
         Number = Number-n;
         

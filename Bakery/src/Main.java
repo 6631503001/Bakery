@@ -38,13 +38,15 @@ public class Main {
                                 ShowBakery();
                                 break;
                             case 2:
+                            clearScreen();
                                 ShowIngredients();
                                 break;
                             case 3:
                                 // BuyIngredients();
                                 break;
                             case 4:
-                                // ProduceBakery();
+                            clearScreen();
+                                ProduceBakery();
                                 break;
                             case 5:
                                 // SellBakery();
@@ -274,6 +276,104 @@ public class Main {
         }
         clearScreen();
     }
+
+    //subprogram3
+    public static void ProduceBakery() 
+    { boolean produce = true;
+        int i =0;
+        int j =0;
+        int choice=0;
+        int number =0;
+        Bake producebake = new Bake(null);
+        while (produce) {
+            //this for IndexOutOfBoundsException
+            while(true){
+                //this for NumberFormatException
+           while(true){
+            i=0;
+            System.out.println("This is all ingredient that you have in stock");
+            for(Ingredient a : Allingredients){
+                i++;
+                System.out.print(i+")"+a.getName()+a.getNumber()+"\n");
+
+            }
+            System.out.println("And here is your menu.");
+            i=0;
+            for(Bake a : Bakes){
+                i++;
+                j=0;
+                System.out.print(i+")"+a.getName()+" ==> ");
+                for(Ingredient b:a.Ingredients){
+                    System.out.print("[ use "+a.UseIngredient.get(j) +" parts of "+b.getName() +" ] ");
+                    j++;
+                }
+                System.out.print("\n");
+            }
+           
+            System.out.println("Which one do you want to produce?");
+            System.out.println("<input 0 to go to main menu>");
+            try{
+                choice= Integer.parseInt(scan.nextLine());
+                if(choice==0){
+                    clearScreen();
+                    return;
+                }
+            }catch(NumberFormatException e){
+                clearScreen();
+                System.out.println("Hey input only number pls!");
+            }
+            clearScreen();
+            break;
+         }
+            try{
+                producebake = Bakes.get(choice-1);
+                break;
+            }catch(IndexOutOfBoundsException e){
+                clearScreen();
+                System.out.println("We don't have that menu.");
+            }
+        }  //for NumberFormatException
+        while(true){
+            
+            System.out.print(producebake.getName() +" ==> ");
+            j=0;
+            for (Ingredient a : producebake.Ingredients){
+                System.out.print("use "+producebake.UseIngredient.get(j) + " parts of "+a.getName());
+                j++;
+            }
+            System.out.println("\nAnd here is ingredient in your stock that match with recipes.");
+            j=0;
+            for(Ingredient a: producebake.Ingredients){
+                for(Ingredient b:Allingredients){
+                    if(a.getName().equals(b.getName())){
+                        System.out.print(" [ "+a.getName() +" have "+b.getNumber()+" ] ");
+                    }
+                }
+                j++;
+            }
+            System.out.println("\nHow many do you want to produce\n <input 0 to produce menu>");
+            try{
+            number =Integer.parseInt(scan.nextLine());
+            if(number!=0){
+                clearScreen();
+                producebake.produceStock(number);
+                System.out.println("Produce success!");
+                break;
+            }
+            else if(number ==0){
+            clearScreen();
+                break;}
+           
+            }catch(NumberFormatException e){
+                System.out.println("Input number pls.");
+            }
+            
+        }
+        
+    }
+        }
+
+    
 
     // Decrease method
     public static boolean decreaseSomething(Object obj, String name) {

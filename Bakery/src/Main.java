@@ -9,26 +9,26 @@ public class Main {
     // Exception
     static List<Bake> Bakes = new ArrayList<Bake>();
     static List<Ingredient> Allingredients = new ArrayList<Ingredient>();
-    private static final String Filename1 = "Bake";
-    private static final String Filename2 = "Ingredient";
+    private static String FileBakery = "BakeryStore";
+    private static String Filename1;
+    private static String Filename2;
     static int Day = 1;
-    static int choice;
+    static int choice, money;
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
         boolean Nextday = true;
-        ReadbakeryrecipesAndIngredient();
-
+        readBakeryStore();
         try {
             while (Nextday) {
                 Banner();
                 System.out.println("Welcome to bakery management");
                 boolean Bakesomething = true;
-
                 while (Bakesomething) {
+                    System.out.println("We have " + money + " Baht");
                     System.out.println("What do you want to do?");
                     System.out.println(
-                            "1.) Edit bakery ingredient\n2.) Show&BuyIngredients in stock\n3.) Produce bakery\n4.) Sell Bakery\n5.) End program");
+                            "1.) Edit bakery ingredient\n2.) Show&BuyIngredients in stock\n3.) Produce bakery\n4.) Sell Bakery\n5.) Manage Money\n6.) End program");
                     if (scan.hasNextInt()) {
                         int choice = Integer.parseInt(scan.nextLine());
                         // clearScreen();
@@ -46,9 +46,13 @@ public class Main {
                                 ProduceBakery();
                                 break;
                             case 4:
-                                
+
                                 break;
                             case 5:
+                                clearScreen();
+                                ManageMoney();
+                                break;
+                            case 6:
                                 Bakesomething = false;
                                 break;
                             default:
@@ -58,7 +62,7 @@ public class Main {
 
                                 break;
                         }
-                        WritebakeryrecipesAndIngredient(Bakes, Allingredients);
+                        writeBakeryStore(Bakes, Allingredients);
                     } else {
 
                         clearScreen();
@@ -116,8 +120,8 @@ public class Main {
         return null;
     }
 
-    // Subprogram 1-4
-    //Subprogram 1
+    // Subprogram 1-5
+    // Subprogram 1
     private static void ShowBakery() {
         int Number, choices;
         Bake selected;
@@ -144,22 +148,24 @@ public class Main {
                 clearScreen();
                 subprogram = true;
                 while (subprogram) {
-                    System.out.println(selected.getName() + " Use");
+                    ;
                     // to show all the ingredient to use
+                    boolean a = true;
+                    while (a) {
                     Number = 0;
+                    System.out.println(selected.getName() + " Use");
                     for (Ingredient n : selected.Ingredients) {
                         System.out.print(n.getName() + " " + selected.UseIngredient.get(Number) + " ");
                         Number++;
                     }
                     System.out.println("\nDo you want to edit Ingredient?");
-                    boolean a = true;
-                    while (a) {
                         System.out.println("1 to increase ingredient , 2 to decrease ingredient, 3 to not edit");
                         try {
                             choices = Integer.parseInt(scan.nextLine());
                             a = false;
                         } catch (NumberFormatException e) {
-                            System.out.println("Input only number pls.");
+                            clearScreen();
+                            System.out.println("Input only number please");
                         }
                     }
                     switch (choices) {
@@ -175,6 +181,7 @@ public class Main {
                                     clearScreen();
 
                                 } catch (NumberFormatException e) {
+                                    clearScreen();
                                     System.out.println("Input only number pls.");
                                 }
                                 if (Number == 0) {
@@ -230,7 +237,8 @@ public class Main {
                             break;
 
                         default:
-                            System.out.print("Please select only avaliable number:");
+                            clearScreen();
+                            System.out.println("Please select only avaliable number");
                             break;
                     }
                 }
@@ -243,7 +251,7 @@ public class Main {
         clearScreen();
     }
 
-    //Subprogram 2
+    // Subprogram 2
     private static void ShowIngredients() {
         int Number, choices;
         boolean subprogram = true;
@@ -260,27 +268,39 @@ public class Main {
                 }
                 System.out.println("Enter Number to buy ingredient or 0 to go back");
                 choices = Integer.parseInt(scan.nextLine());
+                clearScreen();
                 if (choices == 0) {
                     subprogram = false;
                 } else {
                     selected = Allingredients.get(choices - 1);
                     while (true) {
                         try {
-                            System.out.println("We have " + selected.getNumber() + " " + selected.getName());
+                            
+                            System.out.println(selected.getName() + " is " + selected.getPrice() + " Baht");
+                            System.out.println("We have " + selected.getNumber() + " of " + selected.getName());
                             System.out.println("How many do you want to buy?\nOr enter 0 to go back");
                             Number = -1;
                             Number = Integer.parseInt(scan.nextLine());
-                            if (Number >= 0) {
+                            int cost= Number*selected.getPrice();
+                            if (Number > 0) {
+                                if(money >= cost){
                                 selected.setNumber(selected.getNumber() + Number);
-                                System.out.println("Buy succesfully");
+                                money -= cost;
+                                System.out.println("Buy succesfully\nYou have " + money + "Baht");
                                 scan.nextLine();
+                                clearScreen();
                                 break;
-                            } else if(Number == 0) {
+                                }else{
+                                    System.out.println("Buy unsuccesfully\nYou have " + money + "Baht But it cost " + cost + " Baht");
+                                    scan.nextLine();
+                                }
+                            } else if (Number == 0) {
+                                clearScreen();
                                 break;
-                            }
-                            else {
+                            } else {
                                 System.out.println("Cannot insert less than 0!!");
                             }
+                            //clearScreen();
                         } catch (Exception e) {
                             clearScreen();
                             System.out.println("Please Enter only integer");
@@ -288,12 +308,12 @@ public class Main {
                     }
                 }
             } catch (Exception e) {
-                //clearScreen();
-                //System.out.println("Please select only avaliable number");
+                clearScreen();
+                // System.out.println("Please select only avaliable number");
 
             }
         }
-        
+
     }
 
     // subprogram 3
@@ -353,7 +373,6 @@ public class Main {
                 }
             } // for NumberFormatException
             while (true) {
-
                 System.out.print(producebake.getName() + " ==> ");
                 j = 0;
                 for (Ingredient a : producebake.Ingredients) {
@@ -389,6 +408,59 @@ public class Main {
 
             }
 
+        }
+    }
+
+    // Subprogram 5
+    private static void ManageMoney() {
+        int choices, deposit;
+        while (true) {
+            try {
+                System.out.println("We have " + money + " Baht");
+                System.out.println("1 to change amount of money 0 is go back");
+                choices = Integer.parseInt(scan.nextLine());
+                clearScreen();
+                if (choices == 1) {
+                    while (true) {
+                        try {
+                            System.err.println("How much money do you want change");
+                            deposit = Integer.parseInt(scan.nextLine());
+                            if (deposit == 0) {
+                                break;
+                            } else if (deposit > 0) {
+                                money += deposit;
+                                System.out.println("Deposit success!!");
+                                scan.nextLine();
+                                clearScreen();
+                                break;
+                            } else if (deposit < 0) {
+                                if((money += deposit) < 0){
+                                    System.out.println("You can't Withdraw more than you have!!");
+                                    scan.nextLine();
+                                    clearScreen();
+                                    break;
+                                }else{
+                                money += deposit;
+                                System.out.println("Withdraw success!!");
+                                scan.nextLine();
+                                clearScreen();
+                                break;
+                                }
+                            }
+                            
+                        } catch (Exception e) { 
+                            System.out.println("Please Enter only number");
+                        }
+                    }
+                } else if (choices == 0) {
+                    break;
+                } else {
+                    System.out.println("Please enter only 1 or 0");
+                }
+            } catch (Exception e) {
+                clearScreen();
+                System.out.println("Please Enter only number");
+            }
         }
     }
 
@@ -455,12 +527,16 @@ public class Main {
         return true;
     }
 
-    // I think I will use this method at the end of the day because it can add new
-    // recipes or new ingerdient of that day in file
-    // If you take off some bake or ingredaint in filed will take it out too
-    // Then the next day that can auto update by read in file *-*zzz
-    public static void WritebakeryrecipesAndIngredient(List<Bake> Bakes, List<Ingredient> Allingredients) {
+    // Read&WriteFile
 
+    public static void writeBakeryStore(List<Bake> Bakes, List<Ingredient> Allingredients) {
+        try {
+            BufferedWriter Store = new BufferedWriter(new FileWriter(FileBakery));
+            Store.write(Filename1 + " " + Filename2 + " " + money);
+            Store.close();
+        } catch (Exception e) {
+            System.out.println("SomethingWrongHappen");
+        }
         try {
             // for write file name bake
             BufferedWriter bake = new BufferedWriter(new FileWriter(Filename1));
@@ -475,7 +551,7 @@ public class Main {
 
             BufferedWriter addmaterial = new BufferedWriter(new FileWriter(Filename2));
             for (Ingredient b : Allingredients) {
-                addmaterial.write(b.getName() + " " + b.getNumber() + "\n");
+                addmaterial.write(b.getName() + " " + b.getNumber() + " " + b.getPrice() +"\n");
             }
             addmaterial.close();
 
@@ -488,18 +564,35 @@ public class Main {
     // arraylist
     // Then it will clear file to prepare the write method called at the end of the
     // day
-    public static void ReadbakeryrecipesAndIngredient() {
+    public static void readBakeryStore() {
         String line = null;
-        int i = 0;
+        int i;
         try {
-
+            BufferedReader readStore = new BufferedReader(new FileReader(FileBakery));
+            i = 0;
+            while ((line = readStore.readLine()) != null) {
+                String fromStore[] = line.split("\\s+");
+                Filename1 = fromStore[0];
+                Filename2 = fromStore[1];
+                money = Integer.parseInt(fromStore[2]);
+                i++;
+            }
+            readStore.close();
+        } catch (Exception e) {
+            System.out.println("SomethingWrongHappen");
+        }
+        try {
+            line = null;
+            i = 0;
             // read ingredient
             BufferedReader readingredient = new BufferedReader(new FileReader(Filename2));
             i = 0;
             while ((line = readingredient.readLine()) != null) {
                 String fromfile2[] = line.split("\\s+");
+                Ingredient addsome = new Ingredient(fromfile2[0], Integer.parseInt(fromfile2[1]), Integer.parseInt(fromfile2[2]));
+                Allingredients.add(addsome);
 
-                for (String a : fromfile2) {
+                /*for (String a : fromfile2) {
                     Ingredient addsome = new Ingredient(a);
                     try {
                         int number = Integer.parseInt(a);
@@ -507,7 +600,7 @@ public class Main {
                     } catch (NumberFormatException e) {
                         Allingredients.add(addsome);
                     }
-                }
+                }*/
                 i++;
 
             }

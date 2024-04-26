@@ -46,7 +46,8 @@ public class Main {
                                 ProduceBakery();
                                 break;
                             case 4:
-
+                            clearScreen();
+                            SellBakery();
                                 break;
                             case 5:
                                 clearScreen();
@@ -350,7 +351,7 @@ public class Main {
                     }
 
                     System.out.println("Which one do you want to produce?");
-                    System.out.println("<input 0 to go to Produce menu");
+                    System.out.println("<input 0 to go back to Produce menu>");
                     try {
                         choice = Integer.parseInt(scan.nextLine());
                         if (choice == 0) {
@@ -410,6 +411,75 @@ public class Main {
 
         }
     }
+        //check stock
+        private static boolean Checkstock(Bake a,int num){
+            if(a.getNumber()-num <0){
+                return true;
+            }
+            return false;
+        }
+       
+            
+     // subprogram 3
+    private static void SellBakery(){
+    int i = 1;
+    int input=0;
+    Bake Customerchose = new Bake(null);
+    int price =0;
+    while (true) {
+        
+        price =0;
+        i = 1;
+        System.out.println("Welcome to our Bakery store here is what we have");
+         
+        for(Bake a: Bakes)
+         {
+            System.out.println(i+". "+a.getName()+" have "+a.getNumber()+" pices ");
+            i++;        
+        }
+       do{
+
+        while(true){
+         System.out.println("pls select your menu <input 0 to back to menu>");
+         try{
+            input = Integer.parseInt(scan.nextLine());
+            try{
+            Customerchose = Bakes.get(input -1);
+            break;
+         }catch(IndexOutOfBoundsException e ){
+            System.out.println("We dont have that menu.");
+         }
+         }catch(NumberFormatException e){
+            System.out.println("Number only!");
+         }
+         
+        }
+         
+
+         System.out.println("How many "+Customerchose.getName()+" do you want ?");
+         try{
+            input = Integer.parseInt(scan.nextLine());
+         }catch(NumberFormatException e){
+            System.out.println("Number only!");
+         }
+         if(Checkstock(Customerchose, input)){
+            System.out.println("We dont have enough.");
+         }
+
+        } while(Checkstock(Customerchose, input));
+
+        Customerchose.setNumber(Customerchose.getNumber()-input);
+        System.out.println("You got "+input+" pices of "+Customerchose.getName()+" .");
+        System.out.println("Price is "+Customerchose.getPrice()*input+" Bath.");
+        money =money+price;
+        clearScreen();
+    }
+    }
+
+
+
+
+
 
     // Subprogram 5
     private static void ManageMoney() {
@@ -417,7 +487,7 @@ public class Main {
         while (true) {
             try {
                 System.out.println("We have " + money + " Baht");
-                System.out.println("1 to change amount of money 0 is go back");
+                System.out.println("1 to change amount of money or <input 0 to menu>");
                 choices = Integer.parseInt(scan.nextLine());
                 clearScreen();
                 if (choices == 1) {

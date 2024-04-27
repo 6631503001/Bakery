@@ -135,7 +135,7 @@ public class Main {
                     System.out.println(Number + ". " + a.getName());
                     Number++;
                 }
-                System.out.println("Select number to see their ingredients or insert 0 to main menu");
+                System.out.println("Select number to see their ingredients or <insert 0 to main menu>");
                 choices = Integer.parseInt(scan.nextLine());
                 if (choices == 0) {
                     break;
@@ -265,7 +265,7 @@ public class Main {
 
                             System.out.println(selected.getName() + " is " + selected.getPrice() + " Baht");
                             System.out.println("We have " + selected.getNumber() + " of " + selected.getName());
-                            System.out.println("How many do you want to buy?\nOr enter 0 to go back");
+                            System.out.println("How many do you want to buy?\n<Or enter 0 to go back>");
                             Number = -1;
                             Number = Integer.parseInt(scan.nextLine());
                             int cost = Number * selected.getPrice();
@@ -418,13 +418,13 @@ public class Main {
                 input = -1;
                 //price = 0;
                 i = 1;
-                System.out.println("Welcome to our Bakery store here is what we have");
+                System.out.println("Here is menu ");
 
                 for (Bake a : Bakes) {
                     System.out.println(i + ". " + a.getName() + " have " + a.getNumber() + " piece(s) ");
                     i++;
                 }
-                System.out.println("please select your menu <input 0 to back to main menu>");
+                System.out.println("please select cutoner menu <input 0 to back to main menu>");
 
                 input = Integer.parseInt(scan.nextLine());
                 // System.out.println(input);
@@ -435,7 +435,7 @@ public class Main {
                 Customerchoose = Bakes.get(input - 1);
                 while (true) {
                     input = 0;
-                    System.out.println("How many " + Customerchoose.getName() + " do you want?\n<input 0 to back to menu>");
+                    System.out.println("How many " + Customerchoose.getName() + " do customer want?\n<input 0 to back to menu>");
                     try {
                         input = Integer.parseInt(scan.nextLine());
                         if (input == 0){

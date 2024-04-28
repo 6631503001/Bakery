@@ -443,7 +443,10 @@ public class Main {
                             break;
                         }else if (Checkstock(Customerchoose, input)) {
                             System.out.println("We dont have enough.");
-                        } else{
+                        } 
+                        else if(input<0){
+                            System.out.println("Positive number pls.");
+                        }else{
                             Customerchoose.setNumber(Customerchoose.getNumber()-input);
                             System.out.println("You got "+input+" pices of "+Customerchoose.getName()+".");
                             System.out.println("Price is "+Customerchoose.getPrice()*input+" Bath.");

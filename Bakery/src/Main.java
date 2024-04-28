@@ -484,13 +484,13 @@ public class Main {
         while (true) {
             try {
                 System.out.println("We have " + money + " Baht");
-                System.out.println("1 to change amount of money or <input 0 to menu>");
+                System.out.println("1 to add more funding or <input 0 to menu>");
                 choices = Integer.parseInt(scan.nextLine());
                 clearScreen();
                 if (choices == 1) {
                     while (true) {
                         try {
-                            System.err.println("How much money do you want change");
+                            System.err.println("Do you want to add more funding");
                             deposit = Integer.parseInt(scan.nextLine());
                             if (deposit == 0) {
                                 break;

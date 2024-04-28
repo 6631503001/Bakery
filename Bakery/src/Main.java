@@ -271,7 +271,7 @@ public class Main {
                             int cost = Number * selected.getPrice();
                             if (Number > 0) {
                                 if (money >= cost) {
-                                    selected.setNumber(selected.getNumber() + Number);
+                                    selected.produceStock(Number);
                                     money -= cost;
                                     System.out.println("Buy succesfully\nYou have " + money + "Baht");
                                     scan.nextLine();
